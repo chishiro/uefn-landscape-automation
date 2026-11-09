@@ -1,5 +1,22 @@
+# Generated or private heightmaps, configs, and project files
+assets/input/
+assets/private/
+private/
+outputs/
+generated/
+*.umap
+*.uasset
+*.uefnproject
+
+# Python and tool caches
 __pycache__/
 *.py[cod]
 .pytest_cache/
-outputs/
-generated/
+.coverage
+.venv/
+
+# OS/editor local state
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
