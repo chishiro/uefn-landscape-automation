@@ -269,4 +269,4 @@ Open an issue before implementing a major new operation so scope and compatibili
 
 **Author:** [Hiroyuki Chishiro](https://github.com/chishiro)
 
-Licensed under the **BSD 2-Clause License**; see [`LICENSE`](LICENSE). The author's name does not by itself establish legal copyright ownership. **Before publishing**, replace the `<COPYRIGHT HOLDER>` placeholder in `LICENSE` with the actual copyright holder and verify rights to any imported code or assets. The license applies to this repository's code, not to third-party Fortnite/UEFN materials.
+Licensed under the **BSD 2-Clause License**; see [`LICENSE`](LICENSE). The copyright notice in `LICENSE` identifies Hiroyuki Chishiro. Contributors must ensure they have the right to distribute any code or assets they add. This license applies to this repository's code, not to third-party Fortnite/UEFN materials.
