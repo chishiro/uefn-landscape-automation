@@ -56,7 +56,7 @@ git commit -m "docs: document UEFN workflow and AI agent usage"
 
 **Commit 5: license and CI**
 
-Before this commit, update `<COPYRIGHT HOLDER>` in `LICENSE` with the actual owner name and confirm redistribution rights:
+The `LICENSE` file identifies Hiroyuki Chishiro as the copyright holder. Confirm redistribution rights before publishing:
 
 ```bash
 git add LICENSE .gitignore .github/workflows/tests.yml .python-version
