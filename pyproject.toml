@@ -7,10 +7,11 @@ name = "uefn-landscape-automation"
 version = "0.1.0"
 description = "Offline, configuration-driven UEFN landscape heightmap generation and validation"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11,<3.12"
 license = "BSD-2-Clause"
 classifiers = [
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
 ]
 
 [tool.pytest.ini_options]

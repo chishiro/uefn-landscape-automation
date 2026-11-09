@@ -13,6 +13,10 @@ This repository is a **project-agnostic, offline 16-bit PNG heightmap processor*
 5. Do not remove/disable protection or edge validation just to make a job pass; report the failure and request verified parameters.
 6. Respect `LICENSE` and keep any `assets/input/`, `assets/private/`, `private/`, `outputs/`, game files and proprietary data out of public commits.
 
+## Python version and execution context
+
+Use **Python 3.11.x** (reference: 3.11.8). Check `python --version` before executing commands. This tool runs as an **external CLI**, not inside the UEFN Python interpreter. Do not represent compatibility with Python 3.11 as proof of an implemented UEFN Python API integration.
+
 ## Preferred workflow
 
 1. Read `README.md`, `docs/CONFIGURATION.md` and the intended JSON config. Confirm its scope and units.

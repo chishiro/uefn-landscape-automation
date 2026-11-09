@@ -13,7 +13,37 @@ This open-source-ready Python tool reads an existing **16-bit grayscale PNG**, a
 - **Correct distance metric:** Calculates the *exact Euclidean distance to the nearest land pixel centre*, not approximate 8-neighbour queue distances. Uses the configured X/Y pixel size (including unequal scales).
 - **Safe by default:** Never rewrites the source PNG, preserves protected regions and source land above the configured cutoff, never raises elevation, fails validation on unexpected changes, and refuses to overwrite generated outputs unless `--force` is passed.
 - **Auditable:** Produces `report.json` for scripts/agents and `report.md` for human inspection. Never claims that Y orientation is "verified" without measured control points.
-- **No runtime third-party dependencies:** Python **3.10+** with standard library. `pytest` is required only to run developer tests.
+- **No runtime third-party dependencies:** Python **3.11.x** (3.11.8 recommended) with the standard library. `pytest` is required only to run developer tests.
+
+## Python requirements and UEFN compatibility
+
+- **Supported Python:** Python **3.11.x**, with **3.11.8** as the reference version.
+- **Why 3.11.8?** Epic's Unreal Engine 5.8 Python Editor Script Plugin embeds Python 3.11.8. Matching that minor version reduces friction when adding future integrations. Always check your installed UEFN build if using in-editor Python.
+- **Execution model:** This release is an **external, offline command-line utility**. It does not run inside UEFN, use the UEFN Python API, or require enabling Python scripting in UEFN. Heightmap import remains a separate manual step. Python 3.11 compatibility does **not** imply editor integration has been implemented or tested.
+- **CI baseline:** GitHub Actions tests the package and command using Python 3.11.8. Other Python versions are not part of the supported/tested range.
+
+Check your installed Python version:
+
+```bash
+python --version
+# Expected: Python 3.11.x
+```
+
+On Windows, select Python 3.11 explicitly with `py -3.11`; on macOS/Linux, `python3.11` typically selects it. For an isolated environment:
+
+```bash
+# Windows PowerShell
+py -3.11 -m venv .venv
+.venv\Scripts\Activate.ps1
+
+# macOS/Linux (run instead of the above Windows commands)
+# python3.11 -m venv .venv
+# source .venv/bin/activate
+
+python --version
+```
+
+Once activated, the commands below use the selected environment's `python`. For the editor's API, see [Epic's Python documentation](https://dev.epicgames.com/documentation/unreal-engine/scripting-the-unreal-editor-using-python).
 
 ## 1. Get started in 3 steps (without UEFN)
 
@@ -189,7 +219,7 @@ python -m pip install pytest
 python -m pytest
 ```
 
-The tests cover exact (including anisotropic) shoreline distances, PNG data integrity, protected regions, validation failures, expected-output matching, and CLI behavior. GitHub Actions runs the suite on Python 3.10 and 3.12. Core execution itself does not require pytest.
+The tests cover exact (including anisotropic) shoreline distances, PNG data integrity, protected regions, validation failures, expected-output matching, and CLI behavior. GitHub Actions tests and exercises the installed CLI on Python 3.11.8. Core execution itself does not require pytest.
 
 Development flow: `fix:` for correctness changes; `feat:` for configuration/CLI changes; `docs:` for README and agent docs; `chore:` for licensing and automation. Suggested staging commands are in [Git commit guide](docs/GIT_COMMITS.md).
 

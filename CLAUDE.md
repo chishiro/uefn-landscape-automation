@@ -6,3 +6,4 @@ Read and follow [AGENTS.md](AGENTS.md) in full before making changes or running 
 - For a command-line example, see [README.md](README.md).
 - Do not import into UEFN, alter private source PNGs, or claim unmeasured orientation verification.
 - Verify offline output with both `generate` and `validate`, and summarize `report.json` results.
+- Use Python 3.11.x (reference: 3.11.8) and verify `python --version` before running the CLI; this tool operates outside the UEFN editor.

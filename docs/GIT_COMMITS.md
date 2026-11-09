@@ -59,7 +59,7 @@ git commit -m "docs: document UEFN workflow and AI agent usage"
 Before this commit, update `<COPYRIGHT HOLDER>` in `LICENSE` with the actual owner name and confirm redistribution rights:
 
 ```bash
-git add LICENSE .gitignore .github/workflows/tests.yml
+git add LICENSE .gitignore .github/workflows/tests.yml .python-version
 git diff --cached --stat
 git commit -m "chore: add BSD-2-Clause license and CI"
 ```
