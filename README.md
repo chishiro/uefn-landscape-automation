@@ -1,8 +1,8 @@
 # UEFN Landscape Automation
 
-**Offline, config-driven automation for Unreal Editor for Fortnite (UEFN) Landscape heightmaps.**
+UEFN Landscape Automation is an open-source, configuration-driven Python CLI tool for generating, modifying, and validating 16-bit Landscape heightmaps for Unreal Editor for Fortnite (UEFN).
 
-This open-source-ready Python tool reads an existing **16-bit grayscale PNG**, applies **non-destructive, water-only seabed deepening**, and produces an importable heightmap, image previews, and machine-readable validation results. It can be called from a terminal, Python subprocess, or an AI coding agent such as **Codex** or **Claude Code**.
+The tool currently supports non-destructive, water-only seabed deepening, protected-region preservation, image previews, and machine-readable validation reports. It runs locally and can be integrated into automated workflows using Python scripts or AI coding agents such as Codex and Claude Code.
 
 > **Scope:** Current release supports the `deepen_seabed` operation. It does **not** design an entire island, place actors or Water Bodies, or import anything into UEFN automatically. UEFN import/reimport requires a human review.
 
