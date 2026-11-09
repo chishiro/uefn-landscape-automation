@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "uefn-landscape-automation"
+version = "0.1.0"
+description = "Offline, configuration-driven UEFN landscape heightmap generation and validation"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "BSD-2-Clause"
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[project.scripts]
+uefn-landscape = "landscape_tool:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+py-modules = ["landscape_tool", "heightmap_png", "shore_distance"]

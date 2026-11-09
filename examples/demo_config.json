@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "name": "Synthetic coastal island demo (no UEFN project required)",
+  "landscape": {
+    "row_zero_world_y": "min",
+    "transform": {
+      "origin_xy_cm": [-25200, -25200],
+      "location_z_cm": 0,
+      "scale_xyz_cm": [100, 100, 100]
+    }
+  },
+  "ocean": {
+    "sea_level_sample": 30000,
+    "land_threshold_offset_samples": 75
+  },
+  "operation": {
+    "type": "deepen_seabed",
+    "shore_start_m": 18,
+    "shore_full_depth_m": 150,
+    "shore_extra_samples": 1500,
+    "boundary_start_m": 22,
+    "boundary_end_m": 130,
+    "boundary_extra_samples": 1500,
+    "edge_target_sample": 25500
+  },
+  "protected_regions": [
+    {
+      "name": "Central gameplay area",
+      "shape": "ellipse",
+      "coordinate_space": "pixel",
+      "center": [252, 252],
+      "radius_m": [40, 30]
+    },
+    {
+      "name": "Example shoreline structure",
+      "shape": "circle",
+      "coordinate_space": "world_cm",
+      "center": [15000, 5000],
+      "radius_m": 12
+    }
+  ],
+  "orientation_checks": [],
+  "validation": {
+    "require_all_edges_below_sea": true
+  }
+}
