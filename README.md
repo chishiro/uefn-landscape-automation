@@ -6,6 +6,16 @@ This open-source-ready Python tool reads an existing **16-bit grayscale PNG**, a
 
 > **Scope:** Current release supports the `deepen_seabed` operation. It does **not** design an entire island, place actors or Water Bodies, or import anything into UEFN automatically. UEFN import/reimport requires a human review.
 
+**Project author:** [Hiroyuki Chishiro](https://github.com/chishiro) · **License:** [BSD-2-Clause](LICENSE) · **Python:** 3.11.x (3.11.8 recommended)
+
+### Documentation map
+
+- **New users:** Follow [Get started in 3 steps](#1-get-started-in-3-steps-without-uefn) with synthetic data.
+- **UEFN creators:** Read [Use your own UEFN Landscape](#2-use-your-own-uefn-landscape) before importing anything.
+- **Configuration:** See [Configuration reference](docs/CONFIGURATION.md).
+- **AI coding agents:** Read [the Codex / Claude Code workflow](#4-use-from-codex--claude-code--other-coding-agents) and [`AGENTS.md`](AGENTS.md).
+- **Contributors:** See [tests and CI](#5-run-tests-and-contribute) and [future development ideas](#7-future-development-ideas).
+
 ## Why use it?
 
 - **Project-agnostic:** No hard-coded project names, 505×505 dimensions, actor coordinates, or local paths. Works with any supported PNG dimensions; the image must separately be suitable for the target UEFN Landscape.
@@ -66,7 +76,17 @@ python src/landscape_tool.py validate \
   --config examples/demo_config.json
 ```
 
-On **Windows PowerShell**, use the same commands on one line, or use PowerShell's continuation character `` ` `` instead of `\`. If `python` is unavailable on Windows, try `py -3`. On macOS/Linux, `python3` may be the installed command.
+The commands above use Bash-style line continuation (`\`). On **Windows PowerShell**, use the commands on separate lines without backslashes:
+
+```powershell
+python scripts/make_demo_heightmap.py --output assets/input/demo_heightmap_505.png
+python src/landscape_tool.py generate --input assets/input/demo_heightmap_505.png --config examples/demo_config.json --output-dir outputs/demo
+python src/landscape_tool.py validate --input assets/input/demo_heightmap_505.png --candidate outputs/demo/heightmap.png --config examples/demo_config.json
+```
+
+If `python` does not resolve to Python 3.11 on Windows, activate the Python 3.11 virtual environment shown above, or use `py -3.11` in place of `python`. On macOS/Linux, `python3.11` can be used when no virtual environment is active.
+
+The `assets/input/` and `outputs/` directories are **local working directories**: they are created as needed and ignored by Git. You do not need an `assets/` folder in the public repository. Only the synthetic illustration images in `docs/images/` are tracked.
 
 These images show the output from the **synthetic demo**, not a real Fortnite island:
 
@@ -221,15 +241,32 @@ python -m pytest
 
 The tests cover exact (including anisotropic) shoreline distances, PNG data integrity, protected regions, validation failures, expected-output matching, and CLI behavior. GitHub Actions tests and exercises the installed CLI on Python 3.11.8. Core execution itself does not require pytest.
 
+**Continuous integration:** [`.github/workflows/tests.yml`](.github/workflows/tests.yml) runs on `pull_request` updates and pushes to `main`. It uses **Ubuntu 24.04** and **Python 3.11.8**, then installs the package, runs pytest, and smoke-tests the CLI. For a PR, check the test run associated with its **latest commit** in [Actions](https://github.com/chishiro/uefn-landscape-automation/actions). An older failed run is not evidence that the latest commit failed; conversely, a conflict-free PR is not evidence that tests passed. The workflow currently has no manual `workflow_dispatch` trigger.
+
 Development flow: `fix:` for correctness changes; `feat:` for configuration/CLI changes; `docs:` for README and agent docs; `chore:` for licensing and automation. Suggested staging commands are in [Git commit guide](docs/GIT_COMMITS.md).
 
-## 6. Security, limitations, and licensing
+## 6. Security and limitations
 
 - Offline utility only; **no direct UEFN import, actor editing, island saving, or material modification**.
 - Only an ocean/seabed **heightmap transformation** is implemented. No river, beach, island coastline or Water Body placement in the current public version.
 - The input file stays untouched. Local config and inputs may reveal a project's layout; keep them outside the public repository.
 - Preview colors are only illustrative, **not physically accurate material/water appearance**.
 - If the source contains no land pixels according to your cutoff, the tool fails. If land or protected regions touch a boundary, the strict edge check may fail (can be explicitly disabled, but investigate the cause first).
-- BSD 2-Clause: see [`LICENSE`](LICENSE). **Before publishing**, replace the `<COPYRIGHT HOLDER>` placeholder with the actual copyright holder; verify rights to any imported code or assets. This license applies to this repository's code, not to third-party Fortnite/UEFN materials.
-
 *This is an independent community tool, not an official Epic Games product.*
+
+## 7. Future development ideas
+
+The following items are **proposed work**, not features available in the current release:
+
+- [ ] Expand supported heightmap formats and add explicit UEFN dimension checks.
+- [ ] Add reusable configuration presets and clearer orientation/calibration diagnostics.
+- [ ] Support batch processing and comparison reports for multiple heightmaps.
+- [ ] Investigate UEFN editor integration when a suitable, supported API is available; keep offline generation usable independently.
+
+Open an issue before implementing a major new operation so scope and compatibility can be discussed first.
+
+## 8. Author and license
+
+**Author:** [Hiroyuki Chishiro](https://github.com/chishiro)
+
+Licensed under the **BSD 2-Clause License**; see [`LICENSE`](LICENSE). The author's name does not by itself establish legal copyright ownership. **Before publishing**, replace the `<COPYRIGHT HOLDER>` placeholder in `LICENSE` with the actual copyright holder and verify rights to any imported code or assets. The license applies to this repository's code, not to third-party Fortnite/UEFN materials.
