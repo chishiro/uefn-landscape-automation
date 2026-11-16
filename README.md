@@ -241,6 +241,16 @@ python -m pytest
 
 The tests cover exact (including anisotropic) shoreline distances, PNG data integrity, protected regions, validation failures, expected-output matching, and CLI behavior. GitHub Actions tests and exercises the installed CLI on Python 3.11.8. Core execution itself does not require pytest.
 
+The repository also tracks a small, fictional regression fixture in
+`tests/fixtures/`. It includes a deterministic 33×33 input PNG, its matching
+configuration, and a generator script (`scripts/make_test_fixture.py`). The
+fixture test runs the actual file-based `generate` and `validate` commands and
+checks its source hash and key metrics, so contributors can reproduce the same
+contract without sharing a real island heightmap. Regenerate it only with the
+script and review the resulting hash/metrics if the fixture algorithm changes.
+To check reproducibility without modifying the tracked files, run
+`python scripts/make_test_fixture.py --check`.
+
 **Continuous integration:** [`.github/workflows/tests.yml`](.github/workflows/tests.yml) runs on `pull_request` updates and pushes to `main`. It uses **Ubuntu 24.04** and **Python 3.11.8**, then installs the package, runs pytest, and smoke-tests the CLI. For a PR, check the test run associated with its **latest commit** in [Actions](https://github.com/chishiro/uefn-landscape-automation/actions). An older failed run is not evidence that the latest commit failed; conversely, a conflict-free PR is not evidence that tests passed. The workflow currently has no manual `workflow_dispatch` trigger.
 
 Development flow: `fix:` for correctness changes; `feat:` for configuration/CLI changes; `docs:` for README and agent docs; `chore:` for licensing and automation. Suggested staging commands are in [Git commit guide](docs/GIT_COMMITS.md).

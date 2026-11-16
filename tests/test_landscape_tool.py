@@ -1,6 +1,9 @@
 import copy
+import hashlib
 import json
 from pathlib import Path
+import subprocess
+import sys
 
 import pytest
 
@@ -12,6 +15,7 @@ from landscape_tool import (
 
 
 ROOT = Path(__file__).resolve().parents[1]
+FIXTURE_DIR = ROOT / 'tests' / 'fixtures'
 
 
 def config_for(size=33):
@@ -132,7 +136,9 @@ def test_generated_outputs_and_validate_cli(tmp_path, capsys):
     report = json.loads((target / 'report.json').read_text(encoding='utf-8'))
     assert report['statistics']['passed']
     assert report['orientation']['status'] == 'configured_not_independently_verified'
-    assert 'configured_not_independently_verified' in (target / 'report.md').read_text()
+    assert 'configured_not_independently_verified' in (
+        target / 'report.md'
+    ).read_text(encoding='utf-8')
 
 
 def test_no_source_file_overwrite_even_with_force(tmp_path):
@@ -203,3 +209,34 @@ def test_all_water_protected_fails_validation():
     land, distance, mask = analyze(source, cfg)
     result = generate(source, cfg, land, distance, mask)
     assert 'no editable water pixels found' in validate(source, result, cfg, land, mask)['failures']
+
+
+def test_reproducible_cli_fixture(tmp_path):
+    """Exercise the file/CLI contract with a tracked synthetic fixture."""
+    source_path = FIXTURE_DIR / 'coastal_33.png'
+    config_path = FIXTURE_DIR / 'coastal_33_config.json'
+    assert hashlib.sha256(source_path.read_bytes()).hexdigest() == (
+        'b856911b5d34e4e7f7b9f7f853b44e153f3b2d82a9f548ab9f3ae93847de4a9f'
+    )
+    output_dir = tmp_path / 'fixture-output'
+    assert main(['generate', '--input', str(source_path), '--config', str(config_path),
+                 '--output-dir', str(output_dir)]) == 0
+    report = json.loads((output_dir / 'report.json').read_text(encoding='utf-8'))
+    stats = report['statistics']
+    assert report['input_sha256'] == hashlib.sha256(source_path.read_bytes()).hexdigest()
+    assert report['orientation']['status'] == 'configured_not_independently_verified'
+    assert {key: stats[key] for key in ('changed_samples', 'protected_changed_samples',
+        'land_changed_samples', 'raised_samples', 'edges_below_sea')} == {
+        'changed_samples': 757, 'protected_changed_samples': 0,
+        'land_changed_samples': 0, 'raised_samples': 0, 'edges_below_sea': True,
+    }
+    assert main(['validate', '--input', str(source_path), '--candidate',
+                 str(output_dir / 'heightmap.png'), '--config', str(config_path)]) == 0
+
+
+def test_fixture_generator_matches_tracked_png():
+    result = subprocess.run(
+        [sys.executable, str(ROOT / 'scripts' / 'make_test_fixture.py'), '--check'],
+        cwd=ROOT, capture_output=True, text=True, check=False,
+    )
+    assert result.returncode == 0, result.stderr or result.stdout

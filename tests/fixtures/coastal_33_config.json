@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "name": "Tracked synthetic coastal regression fixture",
+  "landscape": {"row_zero_world_y": "min", "transform": {"origin_xy_cm": [-1600, -1600], "location_z_cm": 0, "scale_xyz_cm": [100, 100, 100]}},
+  "ocean": {"sea_level_sample": 30000, "land_threshold_offset_samples": 75},
+  "operation": {"type": "deepen_seabed", "shore_start_m": 2, "shore_full_depth_m": 15, "shore_extra_samples": 1500, "boundary_start_m": 1, "boundary_end_m": 10, "boundary_extra_samples": 1500, "edge_target_sample": 27000},
+  "protected_regions": [{"name": "Tracked protected water area", "shape": "circle", "coordinate_space": "pixel", "center": [5, 5], "radius_m": 3}],
+  "orientation_checks": [],
+  "validation": {"require_all_edges_below_sea": true}
+}
